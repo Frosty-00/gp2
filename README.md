@@ -36,15 +36,22 @@ gp2/
 │   └── predict_stance.py           # Stance detection inference module
 ├── models/
 │   ├── fake_news_model/            # Fine-tuned DistilBERT (fake news)
-│   │   ├── model.safetensors       # Model weights (~256 MB)
+│   │   ├── model.safetensors       # Final model weights (~256 MB)
 │   │   ├── config.json
 │   │   ├── tokenizer.json
-│   │   └── tokenizer_config.json
+│   │   ├── tokenizer_config.json
+│   │   ├── training_args.bin
+│   │   ├── checkpoint-856/         # Training checkpoint (step 856)
+│   │   ├── checkpoint-1712/        # Training checkpoint (step 1712)
+│   │   └── checkpoint-2568/        # Training checkpoint (step 2568)
 │   └── stance_model/               # Fine-tuned DistilBERT (stance)
-│       ├── model.safetensors       # Model weights (~256 MB)
+│       ├── model.safetensors       # Final model weights (~256 MB)
 │       ├── config.json
 │       ├── tokenizer.json
-│       └── tokenizer_config.json
+│       ├── tokenizer_config.json
+│       ├── training_args.bin
+│       ├── checkpoint-4373/        # Training checkpoint (step 4373)
+│       └── checkpoint-8746/        # Training checkpoint (step 8746)
 ├── templates/
 │   └── index.html                  # Web UI template
 ├── static/
