@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake News &amp; Stance Detector</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Title -->
+    <h1>Fake News &amp; Stance Detector</h1>
+    <p class="subtitle">Powered by fine-tuned DistilBERT &mdash; SEHS4713 AI Application</p>
+
+    <!-- ============================================================ -->
+    <!-- MODULE 1: Fake News Detection                                 -->
+    <!-- ============================================================ -->
+    <div class="card">
+        <h2 class="section-title">Fake News Detection</h2>
+        <p class="section-desc">Paste an article to classify it as <strong>Fake</strong> or <strong>Real</strong>.</p>
+
+        <form method="POST" action="/predict">
+
+            <!-- Mode Selector -->
+            <label for="mode">Input Mode:</label>
+            <select id="mode" class="select" onchange="handleModeChange()">
+                <option value="custom">Custom Input</option>
+                <option value="demo">Lite Demo Examples</option>
+            </select>
+
+            <!-- Demo Example Selector (hidden by default) -->
+            <div id="demo-selector" class="demo-selector hidden">
+                <label for="demo-choice">Choose an example:</label>
+                <select id="demo-choice" class="select" onchange="fillExample()">
+                    <option value="">-- Select an example --</option>
+                    {% for key, demo in demos.items() %}
+                    <option value="{{ key }}">{{ demo.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Textarea -->
+            <label for="text" class="textarea-label">Article text:</label>
+            <textarea
+                id="text"
+                name="text"
+                placeholder="Enter or paste a news article here..."
+            >{{ text if text else '' }}</textarea>
+            <button type="submit" class="btn">Analyze</button>
+        </form>
+
+        <!-- Fake News Result -->
+        {% if label %}
+        <div class="result {{ label | lower }}">
+            <div class="result-label">{{ label }}</div>
+            <div class="result-confidence">
+                Confidence: {{ "%.2f" | format(confidence * 100) }}%
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Fake News Error -->
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- MODULE 2: Stance Detection                                    -->
+    <!-- ============================================================ -->
+    <div class="card card-stance">
+        <h2 class="section-title">Stance Detection</h2>
+        <p class="section-desc">Enter a headline and article body to detect stance: <strong>Support</strong>, <strong>Against</strong>, or <strong>Neutral</strong>.</p>
+
+        <form method="POST" action="/predict_stance">
+
+            <!-- Stance Mode Selector -->
+            <label for="stance-mode">Input Mode:</label>
+            <select id="stance-mode" class="select" onchange="handleStanceModeChange()">
+                <option value="custom">Custom Input</option>
+                <option value="demo">Lite Demo Examples</option>
+            </select>
+
+            <!-- Stance Demo Selector (hidden by default) -->
+            <div id="stance-demo-selector" class="demo-selector hidden">
+                <label for="stance-demo-choice">Choose an example:</label>
+                <select id="stance-demo-choice" class="select" onchange="fillStanceExample()">
+                    <option value="">-- Select an example --</option>
+                    {% for key, demo in stance_demos.items() %}
+                    <option value="{{ key }}">{{ demo.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Headline -->
+            <label for="headline" class="textarea-label">Headline:</label>
+            <input
+                type="text"
+                id="headline"
+                name="headline"
+                class="text-input"
+                placeholder="e.g. New study confirms vaccines are safe"
+                value="{{ stance_headline if stance_headline else '' }}"
+            >
+
+            <!-- Body -->
+            <label for="body" class="textarea-label">Article Body:</label>
+            <textarea
+                id="body"
+                name="body"
+                placeholder="Paste the article body text here..."
+            >{{ stance_body if stance_body else '' }}</textarea>
+            <button type="submit" class="btn btn-stance">Analyze Stance</button>
+        </form>
+
+        <!-- Stance Result -->
+        {% if stance_label %}
+        <div class="result stance-{{ stance_label | lower }}">
+            <div class="result-label">{{ stance_label }}</div>
+            <div class="result-confidence">
+                Confidence: {{ "%.2f" | format(stance_confidence * 100) }}%
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Stance Error -->
+        {% if stance_error %}
+        <div class="error">{{ stance_error }}</div>
+        {% endif %}
+    </div>
+
+    <p class="footer">Local deployment &bull; CPU inference &bull; No data sent to external servers</p>
+
+</div>
+
+<!-- Store demo texts as a JS object so we can fill the textarea -->
+<script>
+    const DEMO_TEXTS = {
+        {% for key, demo in demos.items() %}
+        "{{ key }}": {{ demo.text | tojson }},
+        {% endfor %}
+    };
+
+    function handleModeChange() {
+        const mode = document.getElementById("mode").value;
+        const demoSelector = document.getElementById("demo-selector");
+        const textarea = document.getElementById("text");
+
+        if (mode === "demo") {
+            demoSelector.classList.remove("hidden");
+        } else {
+            demoSelector.classList.add("hidden");
+            document.getElementById("demo-choice").value = "";
+        }
+
+        textarea.value = "";
+        textarea.placeholder = mode === "demo"
+            ? "Select an example above..."
+            : "Enter or paste a news article here...";
+    }
+
+    function fillExample() {
+        const key = document.getElementById("demo-choice").value;
+        const textarea = document.getElementById("text");
+
+        if (key && DEMO_TEXTS[key]) {
+            textarea.value = DEMO_TEXTS[key];
+        } else {
+            textarea.value = "";
+        }
+    }
+
+    /* ====== Stance Detection Demo ====== */
+
+    const STANCE_DEMOS = {
+        {% for key, demo in stance_demos.items() %}
+        "{{ key }}": {
+            "headline": {{ demo.headline | tojson }},
+            "body": {{ demo.body | tojson }}
+        },
+        {% endfor %}
+    };
+
+    function handleStanceModeChange() {
+        const mode = document.getElementById("stance-mode").value;
+        const demoSelector = document.getElementById("stance-demo-selector");
+        const headlineInput = document.getElementById("headline");
+        const bodyTextarea = document.getElementById("body");
+
+        if (mode === "demo") {
+            demoSelector.classList.remove("hidden");
+        } else {
+            demoSelector.classList.add("hidden");
+            document.getElementById("stance-demo-choice").value = "";
+        }
+
+        headlineInput.value = "";
+        bodyTextarea.value = "";
+        headlineInput.placeholder = mode === "demo"
+            ? "Select an example above..."
+            : "e.g. New study confirms vaccines are safe";
+        bodyTextarea.placeholder = mode === "demo"
+            ? "Select an example above..."
+            : "Paste the article body text here...";
+    }
+
+    function fillStanceExample() {
+        const key = document.getElementById("stance-demo-choice").value;
+        const headlineInput = document.getElementById("headline");
+        const bodyTextarea = document.getElementById("body");
+
+        if (key && STANCE_DEMOS[key]) {
+            headlineInput.value = STANCE_DEMOS[key].headline;
+            bodyTextarea.value = STANCE_DEMOS[key].body;
+        } else {
+            headlineInput.value = "";
+            bodyTextarea.value = "";
+        }
+    }
+</script>
+
+</body>
+</html>

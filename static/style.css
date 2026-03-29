@@ -1,0 +1,251 @@
+/* ===== Reset & Base ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f0f2f5;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 40px 16px;
+}
+
+/* ===== Main Container ===== */
+.container {
+    width: 100%;
+    max-width: 700px;
+}
+
+/* ===== Title ===== */
+h1 {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 6px;
+    color: #1a1a2e;
+}
+
+/* ===== Section Titles ===== */
+.section-title {
+    font-size: 1.25rem;
+    color: #1a1a2e;
+    margin-bottom: 4px;
+}
+
+.section-desc {
+    font-size: 0.88rem;
+    color: #777;
+    margin-bottom: 18px;
+}
+
+.subtitle {
+    text-align: center;
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+/* ===== Card ===== */
+.card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 28px 32px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== Form ===== */
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.textarea-label {
+    margin-top: 16px;
+}
+
+/* ===== Dropdowns ===== */
+.select {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+    color: #333;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    appearance: auto;
+}
+
+.select:focus {
+    outline: none;
+    border-color: #4a6cf7;
+}
+
+/* ===== Demo Selector ===== */
+.demo-selector {
+    margin-top: 16px;
+}
+
+.hidden {
+    display: none;
+}
+
+/* ===== Textarea ===== */
+textarea {
+    width: 100%;
+    height: 180px;
+    padding: 14px;
+    font-size: 0.95rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    resize: vertical;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #4a6cf7;
+}
+
+/* ===== Text Input ===== */
+.text-input {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    transition: border-color 0.2s;
+}
+
+.text-input:focus {
+    outline: none;
+    border-color: #4a6cf7;
+}
+
+/* ===== Button ===== */
+.btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    margin-top: 16px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    background: #4a6cf7;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn:hover {
+    background: #3a56d4;
+}
+
+.btn-stance {
+    background: #6c5ce7;
+}
+
+.btn-stance:hover {
+    background: #5a4bd1;
+}
+
+/* ===== Result Box ===== */
+.result {
+    margin-top: 24px;
+    padding: 20px 24px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.result.fake {
+    background: #fff0f0;
+    border: 2px solid #e74c3c;
+}
+
+.result.real {
+    background: #f0fff4;
+    border: 2px solid #27ae60;
+}
+
+.result-label {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.result.fake .result-label {
+    color: #e74c3c;
+}
+
+.result.real .result-label {
+    color: #27ae60;
+}
+
+.result-confidence {
+    font-size: 1rem;
+    color: #555;
+}
+
+/* ===== Stance Result Colors ===== */
+.result.stance-support {
+    background: #f0fff4;
+    border: 2px solid #27ae60;
+}
+
+.result.stance-support .result-label {
+    color: #27ae60;
+}
+
+.result.stance-against {
+    background: #fff0f0;
+    border: 2px solid #e74c3c;
+}
+
+.result.stance-against .result-label {
+    color: #e74c3c;
+}
+
+.result.stance-neutral {
+    background: #f0f4ff;
+    border: 2px solid #3498db;
+}
+
+.result.stance-neutral .result-label {
+    color: #3498db;
+}
+
+/* ===== Stance Card Spacing ===== */
+.card-stance {
+    margin-top: 28px;
+}
+
+/* ===== Error Box ===== */
+.error {
+    margin-top: 24px;
+    padding: 16px 20px;
+    background: #fff8e1;
+    border: 2px solid #f0c040;
+    border-radius: 10px;
+    text-align: center;
+    color: #7a6000;
+    font-weight: 500;
+}
+
+/* ===== Footer ===== */
+.footer {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 0.82rem;
+    color: #999;
+}
