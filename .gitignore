@@ -15,11 +15,8 @@ build/
 venv/
 env/
 
-# Large model files
-models/
-
-# Large data files
-*.csv
+# Training checkpoints (not needed for inference, saves ~3GB)
+models/*/checkpoint-*/
 
 # OS files
 .DS_Store
