@@ -15,9 +15,6 @@ build/
 venv/
 env/
 
-# Training checkpoints (not needed for inference, saves ~3GB)
-models/*/checkpoint-*/
-
 # OS files
 .DS_Store
 Thumbs.db
