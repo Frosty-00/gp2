@@ -15,6 +15,7 @@ Includes a Flask web app for interactive inference with demo examples.
 
 - [Project Structure](#project-structure)
 - [Prerequisites](#prerequisites)
+- [Clone & Setup](#clone--setup)
 - [Environment Setup](#environment-setup)
 - [Datasets](#datasets)
 - [Training Pipeline (Notebooks)](#training-pipeline-notebooks)
@@ -71,10 +72,28 @@ gp2/
 
 ## Prerequisites
 
+- **Git LFS** — required to clone this repo (large model & data files are tracked via Git LFS)
 - **Python 3.10** (recommended; developed and tested on 3.10)
 - **Conda** (Anaconda or Miniconda) — recommended for environment management
-- **~1 GB disk space** for model weights + datasets
+- **~5 GB disk space** for model weights (including training checkpoints) + datasets
 - **No GPU required** — all inference runs on CPU
+
+---
+
+## Clone & Setup
+
+```bash
+# 1. Install Git LFS (only needed once)
+git lfs install
+
+# 2. Clone the repository (will automatically download all large files)
+git clone https://github.com/Frosty-00/gp2.git
+cd gp2
+
+# 3. Install dependencies (choose one of the options below)
+```
+
+> **Note:** If you cloned without Git LFS installed, large files will be pointer files (~1 KB each). Run `git lfs pull` inside the repo to download the actual files.
 
 ---
 
